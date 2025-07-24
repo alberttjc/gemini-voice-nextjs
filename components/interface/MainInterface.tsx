@@ -99,7 +99,7 @@ const MainInterface = memo(() => {
   // Memoize status message for performance
   const statusMessage = useMemo(() => {
     if (!state.isConnected) {
-      return "Connect with audio mode enabled for automatic voice recording";
+      return "Microphone starts automatically when connected";
     }
     
     if (!state.audioEnabled) {
@@ -181,9 +181,6 @@ const MainInterface = memo(() => {
           <div className="space-y-4">
             <h1 className="text-3xl font-bold text-gray-200">
               Live Voice Assistant
-              {state.audioEnabled && (
-                <span className="text-green-400 ml-2">(Auto-Recording)</span>
-              )}
             </h1>
             
             <p className="text-lg text-gray-400">{statusMessage}</p>
@@ -305,11 +302,6 @@ const MainInterface = memo(() => {
               Send
             </Button>
           </div>
-          {state.audioEnabled && (
-            <p className="text-xs text-green-400 mt-1 text-center">
-              🎤 Auto-recording mode: Microphone starts automatically when connected - just speak!
-            </p>
-          )}
         </div>
       </div>
     </div>

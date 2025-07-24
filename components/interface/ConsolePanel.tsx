@@ -1,20 +1,26 @@
-'use client';
+"use client";
 
 /**
  * Optimized Console Panel - Extracted from monolithic component
  * Memoized for performance with proper dependency arrays
  */
 
-import React, { memo, useMemo } from 'react';
-import { useLiveAPI } from '@/contexts/LiveAPIProvider';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Minimize2 } from 'lucide-react';
+import React, { memo, useMemo } from "react";
+import { useLiveAPI } from "@/contexts/LiveAPIProvider";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Minimize2 } from "lucide-react";
 
 interface ConsolePanelProps {
   onToggleConsole?: (show: boolean) => void;
@@ -23,10 +29,14 @@ interface ConsolePanelProps {
 const LogEntry = memo(({ log }: { log: any }) => {
   const getLogColor = (type: string) => {
     switch (type) {
-      case 'error': return 'text-red-400';
-      case 'warning': return 'text-yellow-400';
-      case 'success': return 'text-green-400';
-      default: return 'text-blue-400';
+      case "error":
+        return "text-red-400";
+      case "warning":
+        return "text-yellow-400";
+      case "success":
+        return "text-green-400";
+      default:
+        return "text-blue-400";
     }
   };
 
@@ -49,7 +59,7 @@ const LogEntry = memo(({ log }: { log: any }) => {
   );
 });
 
-LogEntry.displayName = 'LogEntry';
+LogEntry.displayName = "LogEntry";
 
 const ConsolePanel = memo(({ onToggleConsole }: ConsolePanelProps) => {
   const {
@@ -64,14 +74,14 @@ const ConsolePanel = memo(({ onToggleConsole }: ConsolePanelProps) => {
   } = useLiveAPI();
 
   // Memoize filtered logs for performance
-  const filteredLogs = useMemo(() => 
-    state.logs.slice(-50), // Only show last 50 logs for performance
+  const filteredLogs = useMemo(
+    () => state.logs.slice(-50), // Only show last 50 logs for performance
     [state.logs]
   );
 
   // Memoized handlers to prevent re-renders
-  const handleConnect = useMemo(() => 
-    state.isConnected ? disconnect : connect,
+  const handleConnect = useMemo(
+    () => (state.isConnected ? disconnect : connect),
     [state.isConnected, connect, disconnect]
   );
 
@@ -84,13 +94,13 @@ const ConsolePanel = memo(({ onToggleConsole }: ConsolePanelProps) => {
           echoCancellation: true,
           noiseSuppression: true,
           autoGainControl: true,
-        }
+        },
       });
-      
-      console.log('✅ Microphone test successful');
-      stream.getTracks().forEach(track => track.stop());
+
+      console.log("✅ Microphone test successful");
+      stream.getTracks().forEach((track) => track.stop());
     } catch (error) {
-      console.error('❌ Microphone test failed:', error);
+      console.error("❌ Microphone test failed:", error);
     }
   };
 
@@ -139,45 +149,35 @@ const ConsolePanel = memo(({ onToggleConsole }: ConsolePanelProps) => {
             rows={3}
           />
 
-          <div className="flex items-center space-x-2">
-            <Switch 
-              id="audio-enabled" 
-              checked={state.audioEnabled} 
+          {/* <div className="flex items-center space-x-2">
+            <Switch
+              id="audio-enabled"
+              checked={state.audioEnabled}
               onCheckedChange={setAudioEnabled}
               disabled={state.isConnected}
             />
             <Label htmlFor="audio-enabled">
-              {state.audioEnabled ? '🔊 Audio Mode' : '📝 Text Mode'}
+              {state.audioEnabled ? "🔊 Audio Mode" : "📝 Text Mode"}
             </Label>
-          </div>
+          </div> */}
 
           <Button
             onClick={handleConnect}
             variant={state.isConnected ? "destructive" : "default"}
+            size='sm'
             className="w-full"
           >
             {state.isConnected ? "Disconnect" : "Connect"}
           </Button>
-          
-          <div className="grid grid-cols-2 gap-2">
-            <Button
-              onClick={testMicrophone}
-              variant="outline"
-              size="sm"
-              className="text-xs"
-            >
-              🎤 Test Mic
-            </Button>
-            
-            <Button
-              onClick={clearLogs}
-              variant="ghost"
-              size="sm"
-              className="text-xs"
-            >
-              Clear Logs
-            </Button>
-          </div>
+
+          <Button
+            onClick={clearLogs}
+            size="sm"
+            variant="default"
+            className="w-full"
+          >
+            Clear Logs
+          </Button>
         </div>
 
         <ScrollArea className="h-96">
@@ -192,6 +192,6 @@ const ConsolePanel = memo(({ onToggleConsole }: ConsolePanelProps) => {
   );
 });
 
-ConsolePanel.displayName = 'ConsolePanel';
+ConsolePanel.displayName = "ConsolePanel";
 
 export default ConsolePanel;

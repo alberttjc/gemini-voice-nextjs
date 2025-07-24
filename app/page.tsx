@@ -1,19 +1,14 @@
 'use client';
 
-/**
- * Optimized Main Page - Reduced from 500+ lines to ~30 lines
- * Uses context for state management and lazy-loaded modular components
- */
-
 import React, { Suspense, useState } from 'react';
 import { LiveAPIProvider } from '@/contexts/LiveAPIProvider';
 import { Button } from '@/components/ui/button';
 import { Maximize2 } from 'lucide-react';
 
 // Lazy load components for better performance
-const ConsolePanel = React.lazy(() => import('@/components/optimized/ConsolePanel'));
-const MainInterface = React.lazy(() => import('@/components/optimized/MainInterface'));
-const ConnectionStatus = React.lazy(() => import('@/components/optimized/ConnectionStatus'));
+const ConsolePanel = React.lazy(() => import('@/components/interface/ConsolePanel'));
+const MainInterface = React.lazy(() => import('@/components/interface/MainInterface'));
+const ConnectionStatus = React.lazy(() => import('@/components/interface/ConnectionStatus'));
 
 const LoadingSpinner = () => (
   <div className="flex items-center justify-center p-4">

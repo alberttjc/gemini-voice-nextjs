@@ -18,14 +18,14 @@ const ConnectionStatus = memo(() => {
     <div className="p-4 border-b border-gray-800 flex items-center justify-between">
       <div className="flex items-center gap-4">
         <div className="flex gap-2 items-center">
-          <Badge variant={state.isConnected ? "default" : "secondary"}>
+          <Badge variant={state.isConnected ? "default" : "destructive"}>
             {state.isConnected ? "Connected" : "Disconnected"}
           </Badge>
           <Badge variant="default" className="text-xs">
             {state.audioEnabled ? '🔊 Audio' : '📝 Text'}
           </Badge>
           {state.sessionId && (
-            <Badge variant="outline" className="text-xs">
+            <Badge variant="default" className="text-xs">
               {state.sessionId}
             </Badge>
           )}

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "node server.js",
+    "dev": "node server.js --turbo",
     "lint": "next lint",
     "start": "NODE_ENV=production node server.js",
     "analyze": "ANALYZE=true next build",
