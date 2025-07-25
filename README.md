@@ -93,8 +93,4 @@ BEHAVIOR:
 - [Communication style]
 ```
 
-Save as `prompts/your-prompt.md` and use in the app.
-
 ---
-
-**Ready to start?** Get your [Google AI API key](https://makersuite.google.com/app/apikey) and begin building with voice AI!
