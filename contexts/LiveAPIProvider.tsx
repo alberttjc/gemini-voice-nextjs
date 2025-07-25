@@ -381,6 +381,12 @@ export function LiveAPIProvider({ children }: { children: React.ReactNode }) {
       setSessionId('');
       setRecording(false);
       
+      // Stop audio recorder when disconnecting
+      if (audioRecorderRef.current) {
+        audioRecorderRef.current.stop();
+        addLog('info', '🎤 Audio recorder stopped');
+      }
+      
       // Stop video streams when disconnecting
       if (state.activeVideoStream) {
         state.activeVideoStream.getTracks().forEach(track => track.stop());

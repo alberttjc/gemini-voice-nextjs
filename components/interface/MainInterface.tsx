@@ -20,7 +20,7 @@ import {
   Monitor, 
   MonitorOff,
   Play,
-  Pause,
+  Square,
   Settings
 } from 'lucide-react';
 
@@ -270,11 +270,12 @@ const MainInterface = memo(() => {
             </Button>
 
             <Button
+              variant="ghost"
               size="lg"
               onClick={handleToggleConnection}
               className="w-14 h-14 rounded-full bg-blue-600 hover:bg-blue-700 text-white"
             >
-              {state.isConnected ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
+              {state.isConnected ? <Square className="w-6 h-6" /> : <Play className="w-6 h-6" />}
             </Button>
           </div>
         </div>

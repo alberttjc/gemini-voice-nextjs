@@ -11,7 +11,12 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Settings } from 'lucide-react';
 
-const ConnectionStatus = memo(() => {
+interface ConnectionStatusProps {
+  onToggleLogs?: (show: boolean) => void;
+  showLogs?: boolean;
+}
+
+const ConnectionStatus = memo(({ onToggleLogs, showLogs = false }: ConnectionStatusProps) => {
   const { state } = useLiveAPI();
 
   return (
@@ -31,7 +36,15 @@ const ConnectionStatus = memo(() => {
           )}
         </div>
       </div>
-      <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
+      <Button 
+        variant="ghost" 
+        size="sm" 
+        className={`text-gray-400 hover:text-white ${
+          showLogs ? 'text-blue-400' : ''
+        }`}
+        onClick={() => onToggleLogs?.(!showLogs)}
+        title={showLogs ? "Hide logs panel" : "Show logs panel"}
+      >
         <Settings className="w-4 h-4" />
       </Button>
     </div>
