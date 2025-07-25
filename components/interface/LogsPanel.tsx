@@ -136,17 +136,17 @@ const LogsPanel = memo(({ onClose, className = "" }: LogsPanelProps) => {
     <div className={`w-96 bg-black border-l border-gray-800 transition-all duration-300 h-screen ${className}`}>
       <div className="flex flex-col h-full">
         {/* Header */}
-        <div className="p-4 border-b border-gray-800">
+        <div className="p-4 lg:p-4 p-6 border-b border-gray-800">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-semibold">Console Logs</h2>
+            <h2 className="text-lg lg:text-lg text-xl font-semibold">Console Logs</h2>
             {onClose && (
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={onClose}
-                className="text-gray-400 hover:text-white"
+                className="text-gray-400 hover:text-white w-10 h-10 lg:w-auto lg:h-auto"
               >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5 lg:w-4 lg:h-4" />
               </Button>
             )}
           </div>

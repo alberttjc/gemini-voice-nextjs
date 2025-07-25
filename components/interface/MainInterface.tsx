@@ -2,7 +2,7 @@
 
 /**
  * Optimized Main Interface - Central content area
- * Memoized and performance-optimized
+ * Memoized and performance-optimized with mobile responsiveness
  */
 
 import React, { memo, useMemo, useRef, useEffect } from 'react';
@@ -35,16 +35,16 @@ const VolumeIndicator = memo(({
   color?: string; 
   description?: string;
 }) => (
-  <div className="bg-gray-800 p-3 rounded-lg">
-    <h3 className="text-sm font-medium text-gray-300 mb-2">{label}</h3>
-    <div className="w-full bg-gray-700 rounded-full h-2">
+  <div className="bg-gray-800 p-4 lg:p-3 rounded-lg">
+    <h3 className="text-base lg:text-sm font-medium text-gray-300 mb-2">{label}</h3>
+    <div className="w-full bg-gray-700 rounded-full h-3 lg:h-2">
       <div 
-        className={`${color} h-2 rounded-full transition-all duration-100`}
+        className={`${color} h-3 lg:h-2 rounded-full transition-all duration-100`}
         style={{ width: `${Math.min(volume, 100)}%` }}
       />
     </div>
     {description && (
-      <p className="text-xs text-gray-400 mt-1">{description}</p>
+      <p className="text-sm lg:text-xs text-gray-400 mt-1">{description}</p>
     )}
   </div>
 ));
@@ -56,8 +56,8 @@ const TranscriptSection = memo(({ transcript }: { transcript: string }) => {
 
   return (
     <div className="text-left whitespace-pre-line w-full">
-      <h2 className="text-xl font-semibold mb-2">Transcript</h2>
-      <ScrollArea className="h-48 bg-gray-800 rounded-md p-2 text-sm">
+      <h2 className="text-2xl lg:text-xl font-semibold mb-2">Transcript</h2>
+      <ScrollArea className="h-40 lg:h-48 bg-gray-800 rounded-md p-3 lg:p-2 text-base lg:text-sm">
         {transcript}
       </ScrollArea>
     </div>
@@ -66,7 +66,12 @@ const TranscriptSection = memo(({ transcript }: { transcript: string }) => {
 
 TranscriptSection.displayName = 'TranscriptSection';
 
-const MainInterface = memo(() => {
+interface MainInterfaceProps {
+  onToggleConsole?: (show: boolean) => void;
+  showConsole?: boolean;
+}
+
+const MainInterface = memo(({ onToggleConsole, showConsole }: MainInterfaceProps = {}) => {
   const {
     state,
     toggleRecording,
@@ -154,7 +159,7 @@ const MainInterface = memo(() => {
   return (
     <div className="flex-1 flex flex-col">
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col items-center justify-center p-8">
+      <div className="flex-1 flex flex-col items-center justify-center p-6 lg:p-8">
         <div className="max-w-2xl w-full text-center space-y-8">
           {/* Video Feed */}
           {state.activeVideoStream && (state.isCameraOn || state.isScreenSharing) && (
@@ -164,7 +169,7 @@ const MainInterface = memo(() => {
                 autoPlay
                 muted
                 playsInline
-                className="w-full max-w-md h-64 bg-gray-800 rounded-lg mx-auto object-cover"
+                className="w-full max-w-md h-48 lg:h-64 bg-gray-800 rounded-lg mx-auto object-cover"
               />
               {isCapturing && (
                 <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-xs animate-pulse">
@@ -178,18 +183,18 @@ const MainInterface = memo(() => {
           )}
 
           {/* Main Content */}
-          <div className="space-y-4">
-            <h1 className="text-3xl font-bold text-gray-200">
+          <div className="space-y-6 lg:space-y-4">
+            <h1 className="text-3xl lg:text-3xl font-bold text-gray-200">
               Live Voice Assistant
             </h1>
             
-            <p className="text-lg text-gray-400">{statusMessage}</p>
+            <p className="text-lg lg:text-lg text-gray-400">{statusMessage}</p>
 
             <TranscriptSection transcript={state.transcript} />
             
             {/* Audio Activity Indicators */}
             {state.isConnected && state.audioEnabled && (
-              <div className="grid grid-cols-2 gap-4 mt-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-6">
                 <VolumeIndicator 
                   label="Input Volume" 
                   volume={state.inputVolume}
@@ -207,11 +212,11 @@ const MainInterface = memo(() => {
             
             {/* Video Activity Indicator */}
             {state.isConnected && (state.isCameraOn || state.isScreenSharing) && (
-              <div className="bg-gray-800 p-3 rounded-lg mt-4">
-                <h3 className="text-sm font-medium text-gray-300 mb-2">
+              <div className="bg-gray-800 p-4 lg:p-3 rounded-lg mt-4">
+                <h3 className="text-base lg:text-sm font-medium text-gray-300 mb-2">
                   📹 Video Stream Status
                 </h3>
-                <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center justify-between text-sm lg:text-xs">
                   <span className={isCapturing ? "text-green-400" : "text-gray-400"}>
                     {isCapturing ? '✅ Sending frames to Gemini' : '⌚ Initializing...'}
                   </span>
@@ -230,7 +235,7 @@ const MainInterface = memo(() => {
               size="lg"
               onClick={toggleRecording}
               disabled={!state.isConnected || !state.audioEnabled}
-              className={`w-14 h-14 rounded-full ${
+              className={`w-16 h-16 lg:w-14 lg:h-14 rounded-full ${
                 !state.isConnected || !state.audioEnabled
                   ? "bg-gray-600 text-gray-400 cursor-not-allowed"
                   : state.isRecording 
@@ -238,7 +243,7 @@ const MainInterface = memo(() => {
                   : "bg-gray-800 hover:bg-gray-700 text-gray-300"
               }`}
             >
-              {state.isRecording ? <MicOff className="w-6 h-6" /> : <Mic className="w-6 h-6" />}
+              {state.isRecording ? <MicOff className="w-7 h-7 lg:w-6 lg:h-6" /> : <Mic className="w-7 h-7 lg:w-6 lg:h-6" />}
             </Button>
 
             <Button
@@ -246,13 +251,13 @@ const MainInterface = memo(() => {
               size="lg"
               onClick={handleToggleScreenShare}
               title={state.isScreenSharing ? "Stop screen sharing" : "Start screen sharing"}
-              className={`w-14 h-14 rounded-full ${
+              className={`w-16 h-16 lg:w-14 lg:h-14 rounded-full ${
                 state.isScreenSharing
                   ? "bg-blue-600 hover:bg-blue-700 text-white ring-2 ring-blue-400"
                   : "bg-gray-800 hover:bg-gray-700 text-gray-300"
               }`}
             >
-              {state.isScreenSharing ? <MonitorOff className="w-6 h-6" /> : <Monitor className="w-6 h-6" />}
+              {state.isScreenSharing ? <MonitorOff className="w-7 h-7 lg:w-6 lg:h-6" /> : <Monitor className="w-7 h-7 lg:w-6 lg:h-6" />}
             </Button>
 
             <Button
@@ -260,31 +265,46 @@ const MainInterface = memo(() => {
               size="lg"
               onClick={handleToggleCamera}
               title={state.isCameraOn ? "Stop camera" : "Start camera"}
-              className={`w-14 h-14 rounded-full ${
+              className={`w-16 h-16 lg:w-14 lg:h-14 rounded-full ${
                 state.isCameraOn
                   ? "bg-green-600 hover:bg-green-700 text-white ring-2 ring-green-400"
                   : "bg-gray-800 hover:bg-gray-700 text-gray-300"
               }`}
             >
-              {state.isCameraOn ? <VideoOff className="w-6 h-6" /> : <Video className="w-6 h-6" />}
+              {state.isCameraOn ? <VideoOff className="w-7 h-7 lg:w-6 lg:h-6" /> : <Video className="w-7 h-7 lg:w-6 lg:h-6" />}
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="lg"
+              onClick={() => onToggleConsole?.(!showConsole)}
+              title="Console settings"
+              className={`w-16 h-16 lg:w-14 lg:h-14 rounded-full lg:hidden ${
+                showConsole
+                  ? "bg-gray-600 hover:bg-gray-700 text-white ring-2 ring-gray-400"
+                  : "bg-gray-800 hover:bg-gray-700 text-gray-300"
+              }`}
+            >
+              <Settings className="w-7 h-7 lg:w-6 lg:h-6" />
             </Button>
 
             <Button
               variant="ghost"
               size="lg"
               onClick={handleToggleConnection}
-              className="w-14 h-14 rounded-full bg-blue-600 hover:bg-blue-700 text-white"
+              title={state.isConnected ? "Stop connection" : "Start connection"}
+              className="w-16 h-16 lg:w-14 lg:h-14 rounded-full bg-blue-600 hover:bg-blue-700 text-white"
             >
-              {state.isConnected ? <Square className="w-6 h-6" /> : <Play className="w-6 h-6" />}
+              {state.isConnected ? <Square className="w-7 h-7 lg:w-6 lg:h-6" /> : <Play className="w-7 h-7 lg:w-6 lg:h-6" />}
             </Button>
           </div>
         </div>
       </div>
 
       {/* Bottom Input */}
-      <div className="p-4 border-t border-gray-800">
+      <div className="p-6 lg:p-4 border-t border-gray-800">
         <div className="max-w-2xl mx-auto">
-          <div className="flex gap-2">
+          <div className="flex gap-3 lg:gap-2">
             <Input
               placeholder={state.audioEnabled 
                 ? "Type something or use voice (microphone button above)..." 
@@ -293,12 +313,12 @@ const MainInterface = memo(() => {
               value={state.message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={handleKeyPress}
-              className="bg-gray-800 border-gray-700 text-white placeholder-gray-400"
+              className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 h-12 lg:h-10 text-base lg:text-sm"
             />
             <Button
               onClick={handleSendMessage}
               disabled={!state.isConnected || !state.message.trim()}
-              className="bg-blue-600 hover:bg-blue-700"
+              className="bg-blue-600 hover:bg-blue-700 h-12 lg:h-10 px-6 lg:px-4 text-base lg:text-sm"
             >
               Send
             </Button>
@@ -312,3 +332,4 @@ const MainInterface = memo(() => {
 MainInterface.displayName = 'MainInterface';
 
 export default MainInterface;
+export type { MainInterfaceProps };
